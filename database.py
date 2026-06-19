@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 def json_serial(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()

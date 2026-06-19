@@ -5,10 +5,6 @@ load_dotenv()
 
 r = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
 
-
-
-
-
 def get_history(session_id: str) -> list:
     data = r.get(f"history:{session_id}")
     return json.loads(data) if data else []
@@ -18,10 +14,6 @@ def save_history(session_id: str, history: list):
 
 def clear_history(session_id: str):
     r.delete(f"history:{session_id}")
-
-
-
-
 
 def get_cached_query(sql: str):
     data = r.get(f"cache:{sql}")
@@ -34,9 +26,6 @@ def invalidate_cache():
     """Call this after any write operation to clear stale cache."""
     for key in r.scan_iter("cache:*"):
         r.delete(key)
-
-
-
 
 import secrets
 

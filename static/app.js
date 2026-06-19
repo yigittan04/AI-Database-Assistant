@@ -3,7 +3,6 @@ let isAdmin = localStorage.getItem("is_admin") === "true";
 const sessionId = localStorage.getItem("session_id") || crypto.randomUUID();
 localStorage.setItem("session_id", sessionId);
 
-
 if (token) showChat();
 
 async function login() {

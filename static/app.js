@@ -41,7 +41,7 @@ async function logout() {
 function showChat() {
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("chat-screen").style.display = "block";
-    document.getElementById("user-label").textContent = isAdmin ? "Administrator" : "Read-only";
+    document.getElementById("user-label").textContent = isAdmin ? "Administrator" : "Restricted Access";
 }
 
 async function sendMessage() {
@@ -69,7 +69,7 @@ async function sendMessage() {
     }
 
     const data = await res.json();
-    addMessage("Chatbot: " + data.reply, "bot");
+    addMessage("AI Assistant: " + data.reply, "bot");
 }
 
 function addMessage(text, who) {

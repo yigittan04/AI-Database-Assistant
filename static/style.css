@@ -71,17 +71,19 @@ button:hover {
 }
 
 .secondary {
-    background: #881515;
+    background: red;
 }
 
 .secondary:hover {
-    background: #d22a2a;
+    background: #d43b3b;
 }
 
 #login-error {
     display: none;
     color: #ef4444;
     text-align: center;
+    background-color: black;
+    font-size: 20px;
 }
 
 #topbar {

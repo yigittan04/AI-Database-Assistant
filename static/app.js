@@ -6,13 +6,13 @@ localStorage.setItem("session_id", sessionId);
 if (token) showChat();
 
 async function login() {
-    const name = document.getElementById("name").value.trim();
+    const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
     const res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password })
+        body: JSON.stringify({ username, password })
     });
 
     if (!res.ok) {
@@ -41,7 +41,7 @@ async function logout() {
 function showChat() {
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("chat-screen").style.display = "block";
-    document.getElementById("user-label").textContent = isAdmin ? "Administrator" : "Restricted Access";
+    document.getElementById("user-label").textContent = isAdmin ? "Administrator" : "Restricted User";
 }
 
 async function sendMessage() {

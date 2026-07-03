@@ -29,10 +29,9 @@ def run_query(sql: str):
     raw = [dict(zip(columns, row)) for row in rows]
     return json.loads(json.dumps(raw, default=json_serial))
 
-def run_write(sql: str):
+def save_message(user_id: int, role: str, message: str):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute(sql)
+    cur.execute("""INSERT INTO messages (user_id, role, message) VALUES (%s, %s, %s)""", (user_id, role, message))
     conn.commit()
     conn.close()
-    return {"status": "success", "rows_affected": cur.rowcount}

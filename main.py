@@ -193,7 +193,7 @@ def chat(req: ChatRequest, authorization: str = Header(...)):
     if sql_query_match:
         sql = sql_query_match.group(1).strip()
         if not is_safe_sql(sql):
-            final_reply = "I cannot alter the database in any shape or form. I can only do SELECT queries."
+            final_reply = "I cannot access any other tables. I cannot alter the database in any shape or form. I can only do SELECT queries."
         
         else:
             try:

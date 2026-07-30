@@ -168,8 +168,12 @@ def chat(req: ChatRequest, authorization: str = Header(...)):
     token = authorization.replace("Bearer ", "")
     
     session = get_session(token)
-    if not session:
-        raise HTTPException(...)
+
+    if session is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired session."
+        )
     user_id = session["user_id"]
 
     is_admin = session["is_admin"]

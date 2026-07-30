@@ -3,7 +3,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-r = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
+r = redis.from_url(
+    os.getenv("REDIS_URL"),
+    decode_responses=True,
+    protocol=2
+)
 
 def get_history(session_id: str) -> list:
     data = r.get(f"history:{session_id}")

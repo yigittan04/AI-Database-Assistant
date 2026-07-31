@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI, HTTPException, Header, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -24,6 +25,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+security = HTTPBearer()
 
 DB_SCHEMA_ADMIN = """
 Tables:
@@ -133,8 +136,8 @@ def login(req: LoginRequest):
     }
 
 @app.post("/logout")
-def logout(authorization: str = Header(...)):
-    token = authorization.replace("Bearer ", "")
+def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
     delete_session(token)
     return {"status": "logged out"}
 
@@ -143,7 +146,10 @@ class ChatRequest(BaseModel):
     session_id: str
 
 @app.post("/chat")
-def chat(req: ChatRequest, authorization: str = Header(...)):
+def chat(
+    req: ChatRequest,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
 
     def detect_prompt_injection(message: str) -> bool:
         attacks = [
@@ -165,7 +171,7 @@ def chat(req: ChatRequest, authorization: str = Header(...)):
             "I can answer database questions. I can't reveal internal instructions."
         }
 
-    token = authorization.replace("Bearer ", "")
+    token = credentials.credentials
     
     session = get_session(token)
 
